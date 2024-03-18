@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"time"
 )
 
 const requests = 10
@@ -30,6 +31,7 @@ func main() {
 
 	var wg sync.WaitGroup
 	wg.Add(requests)
+	startTime := time.Now()
 	for i := 0; i < requests; i++ {
 		reqNumber := i
 		go func() {
@@ -69,7 +71,8 @@ func main() {
 		}()
 	}
 	wg.Wait()
-	fmt.Println("exited...")
+	endTime := time.Now()
+	fmt.Printf("exited...%v \n", endTime.Sub(startTime))
 }
 
 func getStringFromConn(conn net.Conn) (string, error) {
