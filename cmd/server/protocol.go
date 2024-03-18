@@ -23,7 +23,11 @@ func handleConnection(payload Payload, pow POW, conn net.Conn) {
 	challenge := pow.generateChallenge()
 
 	// Send challenge to client
-	conn.Write([]byte(challenge + "\n"))
+	_, err := conn.Write([]byte(challenge + "\n"))
+	if err != nil {
+		fmt.Println("Error writing challenge:", err)
+		return
+	}
 
 	// Read response from client
 	reader := bufio.NewReader(conn)
@@ -41,7 +45,11 @@ func handleConnection(payload Payload, pow POW, conn net.Conn) {
 		n := payload.next()
 		fmt.Println("Response verified. Client authorized:", conn.RemoteAddr(), n)
 
-		conn.Write([]byte(n + "\n"))
+		_, err := conn.Write([]byte(n + "\n"))
+		if err != nil {
+			fmt.Println("Error writing quote:", err)
+			return
+		}
 	} else {
 		fmt.Println("Response verification failed. Closing connection:", conn.RemoteAddr())
 	}
