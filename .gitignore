@@ -1,0 +1,12 @@
+.idea/
+.vscode/
+bin/
+vendor/
+vendor.pb/
+
+k8s/values_local.yaml
+coverage.xml
+coverage.txt
+sonar/
+tmp/
+.env
